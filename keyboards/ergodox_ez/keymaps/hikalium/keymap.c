@@ -85,6 +85,52 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
+void set_layer_color( uint8_t layer ) {
+  uint8_t r = (layer == 1) ? 255 : 0;
+  uint8_t g = (layer == 2) ? 255 : 0;
+  uint8_t b = (layer == 0) ? 255 : 0;
+  for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+    rgb_matrix_set_color( i, r, g, b );
+  }
+}
+
+void set_matrix_color_at(uint8_t side, int x, int y, uint8_t r, uint8_t g, uint8_t b) {
+  int index;
+  if(x < 0 || 4 < x || y < 0 || 4 < x) return;
+  if(side == 0) {
+    // right side(0-23)
+    if(x == 0 && y == 4) return;
+    index = y * 5 + x - (y == 4);
+  } else {
+    // left side (24-47)
+    if(x == 4 && y == 4) return;
+    index = 24 + y * 5 + (4 - x) - (y == 4);
+  }
+  rgb_matrix_set_color(index, r, g, b);
+}
+
+#include "logo.c"
+
+void rgb_matrix_indicators_user(void) {
+  uint32_t mode = rgblight_get_mode();
+  // assign colors if the matrix is on and the current mode
+  // is SOLID COLORS => No animations running
+  if(mode == 1) {
+    uint8_t layer = biton32(layer_state);
+    if(layer == 0){
+      for(int y = 0; y < 5; y++){
+        for(int x = 0; x < 5; x++) {
+          const uint8_t *c = logo_data.pixel_data + 3 * (y * 5 + x);
+          set_matrix_color_at(0, x, y, c[0], c[1], c[2]);
+          set_matrix_color_at(1, x, y, c[0], c[1], c[2]);
+        }
+      }
+    } else {
+      set_layer_color(layer);
+    }
+  }
+}
+
 uint32_t layer_state_set_user(uint32_t state) {
 
     uint8_t layer = biton32(state);
