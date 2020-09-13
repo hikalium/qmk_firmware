@@ -10,6 +10,7 @@ enum custom_keycodes {
   EPRM,
   LIUM_LED_ON,
   LIUM_LED_OFF,
+  LIUM_HELP,
 };
 
 // keymap index:
@@ -73,18 +74,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // RESET: Reset the keyboard (for flashing firmware)
     [2] = LAYOUT_ergodox(
         // L
-        KX, KX, KX, KX, KX, KX, KX,          // +0
-        KX, KX, KX, KX, KX, KX, KX,          // +7
-        KX, KX, KX, KX, KX, KX,              // +14
-        KX, KX, KX, KX, KX, KX, KX,          // +20
-        KX, KX, KX, KX, KX,  // +27
-        KX, KX,                              // +32
-        KX, KC_MEDIA_PLAY_PAUSE, KX, KX,     // +34
+        KX, KX, KX, KX, KX, KX, KX,       // +0
+        KX, KX, KX, KX, KX, KX, KX,       // +7
+        KX, KX, KX, KX, KX, KX,           // +14
+        KX, KX, KX, KX, KX, KX, KX,       // +20
+        KX, KX, KX, KX, KX,               // +27
+        KX, KX,                           // +32
+        KX, KC_MEDIA_PLAY_PAUSE, KX, KX,  // +34
         // R
         KX, KX, KX, KX, KX, KX, RESET,                               // +38
         KX, KX, KC_MS_BTN1, KC_MS_BTN2, KX, KX, KX,                  // +45
         /**/ KC_MS_LEFT, KC_MS_DOWN, KC_MS_UP, KC_MS_RIGHT, KX, KX,  // +52
-        KX, KX, KX, KX, KX, KX, KX,                                  // +58
+        KX, KX, KX, KX, KX, LIUM_HELP, KX,                           // +58
         KC_AUDIO_VOL_UP, KC_AUDIO_VOL_DOWN, KC_AUDIO_MUTE, KX, KX,   // +65
         KX, KX,                                                      // +70
         KX, KX, KC_MS_BTN2, KC_MS_BTN1                               // +72
@@ -100,14 +101,14 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
   switch (id) {
     case 0:
       if (record->event.pressed) {
-        SEND_STRING(QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
+        SEND_STRING(QMK_KEYBOARD ":" QMK_KEYMAP " @ " QMK_VERSION);
       }
       break;
   }
   return MACRO_NONE;
 };
 
-uint8_t lium_led_mode;
+uint8_t lium_led_mode = 1;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
@@ -124,6 +125,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case LIUM_LED_OFF:
       if (record->event.pressed) {
         lium_led_mode = 0;
+      }
+      return false;
+    case LIUM_HELP:
+      if (record->event.pressed) {
+        SEND_STRING(QMK_KEYBOARD ":" QMK_KEYMAP " @ " QMK_VERSION "\n");
+        SEND_STRING("https://github.com/hikalium/qmk_firmware\n");
       }
       return false;
   }
@@ -154,7 +161,7 @@ void set_layer_color(uint8_t layer) {
   for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
     rgb_matrix_set_color(i, r, g, b);
   }
-  if(layer == 2) {
+  if (layer == 2) {
     // mouse hjkl
     rgb_matrix_set_color(10, 0x80, 0x80, 0xFF);
     rgb_matrix_set_color(11, 0x80, 0x80, 0xFF);
