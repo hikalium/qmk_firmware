@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DEVICE_VER      0x0001
 #define MANUFACTURER    ErgoDox EZ
 #define PRODUCT         ErgoDox EZ
-#define DESCRIPTION     QMK keyboard firmware for Ergodox EZ
+#define DESCRIPTION     QMK keyboard firmware for Ergodox EZ (hikalium)
 
 /* key matrix size */
 #define MATRIX_ROWS 14
@@ -72,11 +72,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* ws2812 RGB LED */
 #define RGB_DI_PIN D7
-#define RGBLIGHT_ANIMATIONS
-#define RGBLED_NUM 15     // Number of LEDs
-#define RGBLIGHT_HUE_STEP 12
-#define RGBLIGHT_SAT_STEP 255
-#define RGBLIGHT_VAL_STEP 12
+#undef RGBLIGHT_ANIMATIONS
+#undef RGBLED_NUM
+//#define RGBLIGHT_ANIMATIONS
+//#define RGBLED_NUM 15     // Number of LEDs
+//#define RGBLIGHT_HUE_STEP 12
+//#define RGBLIGHT_SAT_STEP 255
+//#define RGBLIGHT_VAL_STEP 12
+#define RGBLIGHT_DISABLE_KEYCODES
 
 /* fix space cadet rollover issue */
 #define DISABLE_SPACE_CADET_ROLLOVER
