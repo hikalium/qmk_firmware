@@ -131,6 +131,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         SEND_STRING(QMK_KEYBOARD ":" QMK_KEYMAP " @ " QMK_VERSION "\n");
         SEND_STRING("https://github.com/hikalium/qmk_firmware\n");
+        SEND_STRING("teensy_loader_cli -mmcu=atmega32u4 -w .build/ergodox_ez_hikalium_glow.hex\n");
       }
       return false;
   }
