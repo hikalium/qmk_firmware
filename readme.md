@@ -33,3 +33,11 @@ QMK is developed and maintained by Jack Humbert of OLKB with contributions from 
 ## Official website
 
 [http://qmk.fm](http://qmk.fm) is the official website of QMK, where you can find links to this page, the documentation, and the keyboards supported by QMK.
+
+## Memo for hikalium
+
+```
+vi keyboards/ergodox_ez/keymaps/hikalium/keymap.c
+make ergodox_ez:hikalium_glow
+teensy_loader_cli -mmcu=atmega32u4 -w .build/ergodox_ez_hikalium_glow.hex
+```

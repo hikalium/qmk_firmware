@@ -66,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KX, KC_UP, KC_7, KC_8, KC_9, KC_ASTR, KC_F12,    // +45
         /**/ KC_DOWN, KC_4, KC_5, KC_6, KC_PLUS, KX,     // +52
         KX, KC_AMPR, KC_1, KC_2, KC_3, KC_BSLASH, KX,    // +58
-        KX, KC_DOT, KC_0, KC_EQUAL, KX,                  // +65
+        KC_PAUS /* screen brightness up */, KC_SLCK /* screen brightness down */, KC_0, KC_EQUAL, KX,                  // +65
         KX, LIUM_LED_ON,                                 // +70
         KX, KX, KX, KX                                   // +72
         ),
